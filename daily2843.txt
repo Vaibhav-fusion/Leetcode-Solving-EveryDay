@@ -42,3 +42,33 @@ Enumeration
 
 
 ////////soltuion 
+
+
+class Solution:
+    def countSymmetricIntegers(self, low: int, high: int) -> int:
+
+        res=0
+    
+        for i in range(low,min(high+1,100)):
+            if i%11==0 and i!=0:
+                res+=1
+
+        # print(res)
+
+        def helper(index,x):
+
+            if index==4:
+                chut=int(x)
+                if int(x[0])+int(x[1])==int(x[2])+int(x[3]) and len(str(int(x)))==4 and low<=chut<=high:
+                    
+                    return 1
+                else:
+                    return 0
+            a=0
+            for i in range(10):
+                a+=helper(index+1,x+str(i))
+
+            return a 
+
+        return (helper(0,""))+res
+        
