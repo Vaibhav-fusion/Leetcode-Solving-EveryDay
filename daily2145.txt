@@ -1,0 +1,19 @@
+class Solution:
+    def numberOfArrays(self, arr: List[int], lower: int, upper: int) -> int:
+        n=len(arr)
+        new=[0 for i in range(n+1)]
+        new[-1]=upper
+        print(new,n)
+        for i in range(n-1,-1,-1):
+            new[i]=new[i+1]+arr[i]
+
+        print(new)
+
+        ans=upper-lower+1-(max(new)-min(new))
+        if ans<0:
+            return 0
+        else:
+            return ans
+            
+
+       
