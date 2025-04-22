@@ -1,0 +1,39 @@
+class Solution:
+    def idealArrays(self, n: int, maxValue: int) -> int:
+        MOD = 10**9 + 7
+        maxLen = maxValue.bit_length()
+
+        divisors = [[] for _ in range(maxValue + 1)]
+        for d in range(1, maxValue + 1):
+            for m in range(2*d, maxValue + 1, d):
+                divisors[m].append(d)
+
+        inv = [0] * (maxLen + 1)
+        inv[1] = 1
+        for i in range(2, maxLen + 1):
+            inv[i] = MOD - (MOD // i) * inv[MOD % i] % MOD
+
+        combs = [0] * (maxLen + 1)
+        combs[1] = 1
+        for k in range(2, maxLen + 1):
+            combs[k] = combs[k-1] * (n - k + 1) % MOD * inv[k-1] % MOD
+
+        memo = {}
+        def dfs(k: int, x: int) -> int:
+            if k == 1:
+                return 1
+            if (k, x) in memo:
+                return memo[(k, x)]
+            total = 0
+            for d in divisors[x]:
+                total = (total + dfs(k-1, d)) % MOD
+            memo[(k, x)] = total
+            return total
+
+        ans = 0
+        for k in range(1, maxLen + 1):
+            c = combs[k]
+            for x in range(1, maxValue + 1):
+                ans = (ans + dfs(k, x) * c) % MOD
+
+        return ans//1
