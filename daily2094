@@ -1,0 +1,30 @@
+class Solution:
+    def findEvenNumbers(self, arr: List[int]) -> List[int]:
+
+        ans=[]
+
+        for i in range(100,1000):
+            x=i
+            ones=x%10
+            x=x//10
+            twos=x%10
+            x=x//10
+            tri=x
+
+            if i%2==0 :
+                
+                digits = [tri, twos, ones]
+                valid = True
+                for d in set(digits):
+                    if digits.count(d) > arr.count(d):
+                        valid = False
+                        break
+
+                if valid:
+                    ans.append(i)
+
+        return ans
+
+        
+
+        
